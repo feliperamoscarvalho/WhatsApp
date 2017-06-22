@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
+    android:gravity="center_vertical|center_horizontal"
     tools:context="br.com.whatsappandroid.fecarvalho.whatsapp.activity.LoginActivity">
 
     <ImageView
@@ -17,64 +18,47 @@
         app:srcCompat="@drawable/logo" />
 
     <EditText
-        android:id="@+id/edtNome"
+        android:id="@+id/edtLoginEmail"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="38dp"
-        android:ems="10"
-        android:hint="Digite seu nome"
-        android:inputType="textPersonName"
-        android:textColor="@color/textColorPrimary"
-        android:layout_below="@+id/imageView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <EditText
-        android:id="@+id/edtCodPais"
-        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/edtNome"
-        android:layout_marginTop="31dp"
+        android:layout_below="@+id/imageView"
+        android:layout_marginTop="34dp"
         android:ems="10"
-        android:hint="+55"
-        android:inputType="number"
-        android:textColor="@color/textColorPrimary" />
+        android:hint="Digite o seu e-mail"
+        android:inputType="textEmailAddress" />
 
     <EditText
-        android:id="@+id/edtCodArea"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="11"
-        android:inputType="number"
-        android:layout_alignBaseline="@+id/edtCodPais"
-        android:layout_alignBottom="@+id/edtCodPais"
-        android:layout_toRightOf="@+id/edtCodPais"
-        android:layout_toEndOf="@+id/edtCodPais"
-        android:textColor="@color/textColorPrimary" />
-
-    <EditText
-        android:id="@+id/edtTelefone"
+        android:id="@+id/edtLoginSenha"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/edtCodArea"
-        android:layout_toEndOf="@+id/edtCodArea"
-        android:layout_toRightOf="@+id/edtCodArea"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/edtLoginEmail"
+        android:layout_marginTop="21dp"
         android:ems="10"
-        android:hint="99123-4567"
-        android:inputType="number"
-        android:textColor="@color/textColorPrimary" />
+        android:hint="Digite a sua senha"
+        android:inputType="textPassword" />
 
     <Button
-        android:id="@+id/btnCadastrar"
+        android:id="@+id/btnLogar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/edtCodPais"
-        android:layout_alignStart="@+id/edtCodPais"
-        android:layout_below="@+id/edtCodPais"
-        android:layout_marginTop="30dp"
-        android:background="@color/colorPrimaryDark"
-        android:text="@string/botao_cadastrar" />
+        android:layout_below="@+id/edtLoginSenha"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="28dp"
+        android:text="@string/botao_logar" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnLogar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="14dp"
+        android:onClick="abrirCadastroUsuario"
+        android:text="@string/texto_cadastro"
+        android:textColor="@android:color/white" />
+
 </RelativeLayout>

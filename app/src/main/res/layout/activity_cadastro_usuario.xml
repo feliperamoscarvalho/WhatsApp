@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:gravity="center_vertical|center_horizontal"
+    tools:context="br.com.whatsappandroid.fecarvalho.whatsapp.activity.CadastroUsuarioActivity">
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="150dp"
+        android:layout_height="113dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="21dp"
+        app:srcCompat="@drawable/usuario"
+        tools:layout_editor_absoluteX="117dp"
+        tools:layout_editor_absoluteY="16dp" />
+
+    <EditText
+        android:id="@+id/edtCadastroNome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/imageView3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="148dp"
+        android:ems="10"
+        android:hint="Digite seu nome"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/edtCadastroEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/edtCadastroNome"
+        android:layout_marginTop="22dp"
+        android:ems="10"
+        android:hint="Digite seu e-mail"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/edtCadastroSenha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/edtCadastroEmail"
+        android:layout_marginTop="22dp"
+        android:ems="10"
+        android:hint="Digite sua senha"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/btnCadastrar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edtCadastroSenha"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="29dp"
+        android:text="@string/botao_cadastrar" />
+
+
+</RelativeLayout>

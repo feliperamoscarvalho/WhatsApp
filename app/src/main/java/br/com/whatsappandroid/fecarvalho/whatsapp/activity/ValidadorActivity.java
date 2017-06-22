@@ -17,6 +17,8 @@ import br.com.whatsappandroid.fecarvalho.whatsapp.helper.Preferencias;
 
 public class ValidadorActivity extends AppCompatActivity {
 
+    //Está tela não está em uso, mantive no código apenas para estudo
+
     private EditText edtCodValidacao;
     private Button btnValidar;
 
