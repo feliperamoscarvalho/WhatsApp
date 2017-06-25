@@ -2,26 +2,89 @@ package br.com.whatsappandroid.fecarvalho.whatsapp.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
-import com.google.firebase.database.DatabaseReference;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 import br.com.whatsappandroid.fecarvalho.whatsapp.R;
 import br.com.whatsappandroid.fecarvalho.whatsapp.config.ConfiguracaoFirebase;
+import br.com.whatsappandroid.fecarvalho.whatsapp.model.Usuario;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private DatabaseReference referenciaFirebase;
+    private EditText edtEmail;
+    private EditText edtSenha;
+    private Button btnLogar;
+    private Usuario usuario;
+    private FirebaseAuth firebaseAutenticacao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        referenciaFirebase = ConfiguracaoFirebase.getFirebase();
-        referenciaFirebase.child("pontos").setValue("800");
+        verificarUsuarioLogado();
 
+        edtEmail = (EditText) findViewById(R.id.edtLoginEmail);
+        edtSenha = (EditText) findViewById(R.id.edtLoginSenha);
+        btnLogar = (Button) findViewById(R.id.btnLogar);
+
+        btnLogar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                usuario = new Usuario();
+                usuario.setEmail(edtEmail.getText().toString());
+                usuario.setSenha(edtSenha.getText().toString());
+                validarLogin();
+
+            }
+        });
+
+    }
+
+    private void verificarUsuarioLogado(){
+        firebaseAutenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
+        if(firebaseAutenticacao.getCurrentUser() != null){
+            abrirTelaPrincipal();
+        }
+    }
+
+    private void validarLogin(){
+
+        firebaseAutenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
+        firebaseAutenticacao.signInWithEmailAndPassword(
+                usuario.getEmail(),
+                usuario.getSenha()
+        ).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+
+                if(task.isSuccessful()){
+                    abrirTelaPrincipal();
+                    Toast.makeText(LoginActivity.this,"Sucesso ao fazer login!", Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(LoginActivity.this,"Erro ao fazer login!", Toast.LENGTH_LONG).show();
+                    //Depois fazer o tratamento de exceçõesi gual na tela de Cadastro, seguindo a doc do Firebase
+                }
+
+            }
+        });
+
+    }
+
+    private  void abrirTelaPrincipal(){
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish(); //Encerra a activity atual (LoginActivity)
     }
 
     public void abrirCadastroUsuario(View view){
