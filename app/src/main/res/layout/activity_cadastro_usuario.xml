@@ -61,7 +61,8 @@
         android:layout_below="@+id/edtCadastroSenha"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="29dp"
-        android:text="@string/botao_cadastrar" />
+        android:text="@string/botao_cadastrar"
+        android:theme="@style/botaoPadrao"/>
 
 
 </RelativeLayout>

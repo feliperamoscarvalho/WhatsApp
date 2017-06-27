@@ -48,7 +48,8 @@
         android:layout_below="@+id/edtLoginSenha"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="28dp"
-        android:text="@string/botao_logar" />
+        android:text="@string/botao_logar"
+        android:theme="@style/botaoPadrao"/>
 
     <TextView
         android:id="@+id/textView2"

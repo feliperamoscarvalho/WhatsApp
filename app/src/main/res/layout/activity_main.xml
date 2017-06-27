@@ -6,6 +6,9 @@
     android:layout_height="match_parent"
     tools:context="br.com.whatsappandroid.fecarvalho.whatsapp.activity.MainActivity">
 
+    <include android:id="@+id/toolbar"
+        layout="@layout/toobar" />
+
     <Button
         android:id="@+id/btnSair"
         android:layout_width="wrap_content"
