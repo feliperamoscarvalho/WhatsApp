@@ -92,6 +92,12 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(LoginActivity.this, CadastroUsuarioActivity.class);
         startActivity(intent);
     }
+
+    public void abrirMain(View view){
+        //APAGAR: abrir o main sem logar, apenas para testes!!!!!
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
 }
 
 

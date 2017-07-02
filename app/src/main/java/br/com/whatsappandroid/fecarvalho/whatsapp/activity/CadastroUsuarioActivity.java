@@ -1,8 +1,9 @@
 package br.com.whatsappandroid.fecarvalho.whatsapp.activity;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import br.com.whatsappandroid.fecarvalho.whatsapp.R;
 import br.com.whatsappandroid.fecarvalho.whatsapp.config.ConfiguracaoFirebase;
+import br.com.whatsappandroid.fecarvalho.whatsapp.helper.Base64Custom;
 import br.com.whatsappandroid.fecarvalho.whatsapp.model.Usuario;
 
 public class CadastroUsuarioActivity extends AppCompatActivity {
@@ -66,11 +68,15 @@ public class CadastroUsuarioActivity extends AppCompatActivity {
                 if(task.isSuccessful()){
                     Toast.makeText(CadastroUsuarioActivity.this, "Sucesso ao cadastrar usuário", Toast.LENGTH_LONG).show();
                     FirebaseUser usuarioFirebase = task.getResult().getUser(); //obtém o usuário cadastrado
-                    usuario.setId(usuarioFirebase.getUid()); //seta o id do usuário cadastrado no Firebase no meu objeto usuário
+
+                    //A chave será o e-mail convertido para Base64
+                    String identificadorUsuario = Base64Custom.codificarBase64(usuario.getEmail());
+
+                    //usuario.setId(usuarioFirebase.getUid()); //seta o id do usuário cadastrado no Firebase no meu objeto usuário
+                    usuario.setId(identificadorUsuario);
                     usuario.salvar();
 
-                    firebaseAutenticacao.signOut(); //quando o Firebase insere um usuário, ele já fica logado, estou deslogando ele
-                    finish(); //encerra a activity
+                    abrirLoginUsuario();
 
                 }else{
 
@@ -93,5 +99,11 @@ public class CadastroUsuarioActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void abrirLoginUsuario(){
+        Intent intent = new Intent(CadastroUsuarioActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

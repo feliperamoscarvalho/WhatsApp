@@ -2,24 +2,29 @@ package br.com.whatsappandroid.fecarvalho.whatsapp.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
 
 import br.com.whatsappandroid.fecarvalho.whatsapp.R;
+import br.com.whatsappandroid.fecarvalho.whatsapp.adapter.TabAdapter;
 import br.com.whatsappandroid.fecarvalho.whatsapp.config.ConfiguracaoFirebase;
+import br.com.whatsappandroid.fecarvalho.whatsapp.helper.SlidingTabLayout;
 
 public class MainActivity extends AppCompatActivity {
 
     private Button btnSair;
     private FirebaseAuth firebaseAutenticacao;
     private Toolbar toolbar;//tem que ser a v7!
+    private SlidingTabLayout slidingTabLayout;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,20 +37,18 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setTitle("Whatsapp");
         setSupportActionBar(toolbar);
 
-        btnSair = (Button) findViewById(R.id.btnSair);
+        slidingTabLayout = (SlidingTabLayout) findViewById(R.id.stlTabs);
+        viewPager = (ViewPager) findViewById(R.id.vpPagina);
 
-        btnSair.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        //Configurar sliding tabs
+        slidingTabLayout.setDistributeEvenly(true);
+        slidingTabLayout.setSelectedIndicatorColors(ContextCompat.getColor(this, R.color.colorAccent));
 
-                firebaseAutenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
-                firebaseAutenticacao.signOut();
+        //Configurar Adapter
+        TabAdapter tabAdapter = new TabAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(tabAdapter);
 
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
-
-            }
-        });
+        slidingTabLayout.setViewPager(viewPager);
 
     }
 
