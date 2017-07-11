@@ -3,8 +3,6 @@ package br.com.whatsappandroid.fecarvalho.whatsapp.helper;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import java.util.HashMap;
-
 /**
  * Created by Felipe on 17/06/2017.
  */
@@ -17,9 +15,7 @@ public class Preferencias {
     private final int MODE = 0; //somente o meu app terá acesso a esse arquivo de preferências
     private SharedPreferences.Editor editor;
 
-    private final String CHAVE_NOME = "nome";
-    private final String CHAVE_TELEFONE = "telefone";
-    private final String CHAVE_TOKEN = "token";
+    private final String CHAVE_IDENTIFICADOR = "identificadorUsuarioLogado";
 
     public Preferencias(Context contextoParametro){
 
@@ -29,23 +25,15 @@ public class Preferencias {
 
     }
 
-    public void salvarUsuariosPreferencias(String nome, String telefone, String token){
+    public void salvarDados(String identificadorUsuario){
 
-        editor.putString(CHAVE_NOME, nome);
-        editor.putString(CHAVE_TELEFONE, telefone);
-        editor.putString(CHAVE_TOKEN, token);
+        editor.putString(CHAVE_IDENTIFICADOR, identificadorUsuario);
         editor.commit();
 
     }
 
-    public HashMap<String, String> getDadosUsuario(){
-
-        HashMap<String, String> dadosUsuario = new HashMap<>();
-        dadosUsuario.put(CHAVE_NOME, preferences.getString(CHAVE_NOME, null));
-        dadosUsuario.put(CHAVE_TELEFONE, preferences.getString(CHAVE_TELEFONE, null));
-        dadosUsuario.put(CHAVE_TOKEN, preferences.getString(CHAVE_TOKEN, null));
-        return  dadosUsuario;
-
+    public String getIdentificador(){
+        return preferences.getString(CHAVE_IDENTIFICADOR, null);
     }
 
 }

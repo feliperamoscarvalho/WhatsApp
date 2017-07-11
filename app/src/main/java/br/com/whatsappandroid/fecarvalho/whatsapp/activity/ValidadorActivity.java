@@ -5,12 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.github.rtoshiro.util.format.SimpleMaskFormatter;
 import com.github.rtoshiro.util.format.text.MaskTextWatcher;
-
-import java.util.HashMap;
 
 import br.com.whatsappandroid.fecarvalho.whatsapp.R;
 import br.com.whatsappandroid.fecarvalho.whatsapp.helper.Preferencias;
@@ -41,18 +38,6 @@ public class ValidadorActivity extends AppCompatActivity {
 
                 //Recuperar dados das preferências do usuário
                 Preferencias preferencias = new Preferencias(ValidadorActivity.this);
-                HashMap<String, String> usuario = preferencias.getDadosUsuario();
-
-                String tokenGerado = usuario.get("token");
-                String tokenDigitado = edtCodValidacao.getText().toString();
-
-                if(tokenDigitado.equals(tokenGerado)){
-                    //Token válido
-                    Toast.makeText(ValidadorActivity.this, "Token VALIDADO", Toast.LENGTH_LONG).show();
-                }else{
-                    //Token inválido
-                    Toast.makeText(ValidadorActivity.this, "Token NÃO VALIDADO", Toast.LENGTH_LONG).show();
-                }
 
             }
         });
