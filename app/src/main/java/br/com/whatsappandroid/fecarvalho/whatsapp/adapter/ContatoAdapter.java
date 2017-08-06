@@ -43,7 +43,7 @@ public class ContatoAdapter extends ArrayAdapter<Contato> {
 
             //Monta a view a partir do XML
             view = inflater.inflate(R.layout.lista_contato, parent, false);
-            
+
             //Recupera elemento para exibição
             TextView txtNomeContato = (TextView) view.findViewById(R.id.txtNome);
             TextView txtEmailContato = (TextView) view.findViewById(R.id.txtEmail);
