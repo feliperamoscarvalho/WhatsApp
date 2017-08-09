@@ -30,6 +30,7 @@
         android:layout_alignParentBottom="true">
 
         <EditText
+            android:id="@+id/edtMensagem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Mensagem"
@@ -38,6 +39,7 @@
             android:textColorHint="@android:color/black"/>
 
         <ImageButton
+            android:id="@+id/btnEnviar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_send"
