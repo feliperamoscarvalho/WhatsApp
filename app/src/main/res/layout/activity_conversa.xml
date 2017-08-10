@@ -9,20 +9,19 @@
 
     <include
         android:id="@+id/tobConversa"
-        layout="@layout/toobar"
-        android:layout_height="0dp"
-        android:layout_width="0dp"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="0dp"></include>
+        layout="@layout/toobar"></include>
 
     <ListView
         android:id="@+id/lisConversas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp">
+        android:padding="8dp"
+        android:layout_below="@+id/tobConversa"
+        android:layout_above="@+id/llaMensagem">
     </ListView>
 
     <LinearLayout
+        android:id="@+id/llaMensagem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/white"

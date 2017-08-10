@@ -4,13 +4,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 import br.com.whatsappandroid.fecarvalho.whatsapp.R;
+import br.com.whatsappandroid.fecarvalho.whatsapp.adapter.MensagemAdapter;
 import br.com.whatsappandroid.fecarvalho.whatsapp.config.ConfiguracaoFirebase;
 import br.com.whatsappandroid.fecarvalho.whatsapp.helper.Base64Custom;
 import br.com.whatsappandroid.fecarvalho.whatsapp.helper.Preferencias;
@@ -24,6 +32,10 @@ public class ConversaActivity extends AppCompatActivity {
     private EditText edtMensagem;
     private ImageButton btnEnviar;
     private DatabaseReference firebase;
+    private ListView listView;
+    private ArrayList<Mensagem> mensagens;
+    private ArrayAdapter<Mensagem> adapter;
+    private ValueEventListener valueEventListenerMensagem;
 
     //Dados do destinatário da mensagem
     private String nomeUsuarioDestinatario;
@@ -40,6 +52,7 @@ public class ConversaActivity extends AppCompatActivity {
         toolbar = (Toolbar)findViewById(R.id.tobConversa);
         edtMensagem = (EditText) findViewById(R.id.edtMensagem);
         btnEnviar = (ImageButton) findViewById(R.id.btnEnviar);
+        listView = (ListView)findViewById(R.id.lisConversas);
 
         //Dados do usuário logado
         Preferencias preferencias = new Preferencias(ConversaActivity.this);
@@ -59,6 +72,43 @@ public class ConversaActivity extends AppCompatActivity {
         //o botão já funciona como voltar
         toolbar.setNavigationIcon(R.drawable.ic_action_arrow_left);
         setSupportActionBar(toolbar);
+
+        //Monta ListView e Adapter
+        mensagens = new ArrayList<>();
+        adapter = new MensagemAdapter(ConversaActivity.this, mensagens);
+
+        listView.setAdapter(adapter);
+
+        //Recuper mensagens do Firebase
+        firebase = ConfiguracaoFirebase.getFirebase()
+                .child("mensagens")
+                .child(idUsuarioRemetente)
+                .child(idUsuarioDestinatario);
+
+        //Criar listener para mensagens
+        valueEventListenerMensagem = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                //Limpar mensagens
+                mensagens.clear();
+
+                //Recupera mensagens
+                for(DataSnapshot dados: dataSnapshot.getChildren()){
+                    Mensagem mensagem = dados.getValue(Mensagem.class);
+                    mensagens.add(mensagem);
+                }
+
+                adapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        firebase.addValueEventListener(valueEventListenerMensagem);
 
         //Enviar mensagem
         btnEnviar.setOnClickListener(new View.OnClickListener() {
@@ -113,5 +163,12 @@ public class ConversaActivity extends AppCompatActivity {
             return false;
         }
 
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        firebase.removeEventListener(valueEventListenerMensagem);
     }
 }
