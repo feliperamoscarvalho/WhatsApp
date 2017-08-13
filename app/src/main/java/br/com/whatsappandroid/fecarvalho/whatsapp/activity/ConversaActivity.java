@@ -22,6 +22,7 @@ import br.com.whatsappandroid.fecarvalho.whatsapp.adapter.MensagemAdapter;
 import br.com.whatsappandroid.fecarvalho.whatsapp.config.ConfiguracaoFirebase;
 import br.com.whatsappandroid.fecarvalho.whatsapp.helper.Base64Custom;
 import br.com.whatsappandroid.fecarvalho.whatsapp.helper.Preferencias;
+import br.com.whatsappandroid.fecarvalho.whatsapp.model.Conversa;
 import br.com.whatsappandroid.fecarvalho.whatsapp.model.Mensagem;
 
 public class ConversaActivity extends AppCompatActivity {
@@ -39,10 +40,11 @@ public class ConversaActivity extends AppCompatActivity {
 
     //Dados do destinatário da mensagem
     private String nomeUsuarioDestinatario;
+    private String idUsuarioDestinatario;
 
     //Dados do remetente
     private String idUsuarioRemetente;
-    private String idUsuarioDestinatario;
+    private String nomeUsuarioRemetente;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,7 @@ public class ConversaActivity extends AppCompatActivity {
         //Dados do usuário logado
         Preferencias preferencias = new Preferencias(ConversaActivity.this);
         idUsuarioRemetente = preferencias.getIdentificador();
+        nomeUsuarioRemetente = preferencias.getNome();
 
         Bundle extra = getIntent().getExtras();
 
@@ -126,7 +129,40 @@ public class ConversaActivity extends AppCompatActivity {
                     mensagem.setIdUsuario(idUsuarioRemetente);
                     mensagem.setMensagem(textoMensagem);
 
-                    salvarMensagem(idUsuarioRemetente, idUsuarioDestinatario, mensagem );
+                    //As mensagens são salvas para o remetente e para o destinatário
+                    //Salvar mensagem para o remetente
+                    Boolean retornoMensagemRemetente = salvarMensagem(idUsuarioRemetente, idUsuarioDestinatario, mensagem );
+                    if(! retornoMensagemRemetente){
+                        Toast.makeText(ConversaActivity.this, "Problema ao enviar mensagem, tente novamente!", Toast.LENGTH_SHORT).show();
+                    }else{
+                        //Salvar mensagem para o destinatário
+                        Boolean retornoMensagemDestinatario = salvarMensagem(idUsuarioDestinatario, idUsuarioRemetente, mensagem );
+                        if(!retornoMensagemDestinatario){
+                            Toast.makeText(ConversaActivity.this, "Problema ao enviar mensagem para o destinatário, tente novamente!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    //Salvar Conversa para o remetente
+                    Conversa conversa = new Conversa();
+                    conversa.setIdUsuario(idUsuarioDestinatario);
+                    conversa.setNome(nomeUsuarioDestinatario);
+                    conversa.setMensagem(textoMensagem);
+                    Boolean retornoConversaRemetente = salvarConversa(idUsuarioRemetente, idUsuarioDestinatario, conversa);
+                    if(! retornoConversaRemetente){
+                        Toast.makeText(ConversaActivity.this, "Problema ao salvar conversa, tente novamente!", Toast.LENGTH_SHORT).show();
+                    }else{
+                        //Salvar Conversa para o destinatario
+                        Conversa conversaDestinatario = new Conversa();
+                        conversaDestinatario.setIdUsuario(idUsuarioRemetente);
+                        conversaDestinatario.setNome(nomeUsuarioRemetente);
+                        conversaDestinatario.setMensagem(textoMensagem);
+                        
+                        Boolean retornoConversaDestinatario = salvarConversa(idUsuarioDestinatario, idUsuarioRemetente, conversaDestinatario);
+                        if(!retornoConversaDestinatario){
+                            Toast.makeText(ConversaActivity.this, "Problema ao salvar conversa para o destinatário, tente novamente!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
                     edtMensagem.setText("");
 
                 }
@@ -163,6 +199,19 @@ public class ConversaActivity extends AppCompatActivity {
             return false;
         }
 
+    }
+
+    private boolean salvarConversa(String idRemetente, String idDestinatario, Conversa conversa){
+        try{
+            firebase = ConfiguracaoFirebase.getFirebase().child("conversas");
+            firebase.child(idRemetente)
+                    .child(idDestinatario)
+                    .setValue(conversa);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
