@@ -156,7 +156,7 @@ public class ConversaActivity extends AppCompatActivity {
                         conversaDestinatario.setIdUsuario(idUsuarioRemetente);
                         conversaDestinatario.setNome(nomeUsuarioRemetente);
                         conversaDestinatario.setMensagem(textoMensagem);
-                        
+
                         Boolean retornoConversaDestinatario = salvarConversa(idUsuarioDestinatario, idUsuarioRemetente, conversaDestinatario);
                         if(!retornoConversaDestinatario){
                             Toast.makeText(ConversaActivity.this, "Problema ao salvar conversa para o destinatário, tente novamente!", Toast.LENGTH_SHORT).show();
